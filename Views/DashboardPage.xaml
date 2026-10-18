@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="BLY.Views.DashboardPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:BLY.Controls"
+             xmlns:vm="clr-namespace:BLY.ViewModels">
+    <Grid>
+        <Grid RowDefinitions="Auto,*,Auto">
+            <!-- En-tête : salutation, entrepôt actif, notifications, avatar -->
+            <VerticalStackLayout BackgroundColor="{DynamicResource ColorSurface}">
+                <Grid ColumnDefinitions="*,Auto,Auto" Padding="16,12,8,8" ColumnSpacing="4">
+                    <VerticalStackLayout Spacing="0">
+                        <Label Text="{Binding Greeting}" Style="{StaticResource LblTitreBarre}" />
+                        <HorizontalStackLayout Spacing="4">
+                            <c:BlyIcon Source="icon_warehouse" WidthRequest="16" HeightRequest="16" Tint="{DynamicResource ColorTexteSecondaire}" />
+                            <Label Text="{Binding WarehouseLine}" Style="{StaticResource LblSecondaire}" VerticalOptions="Center" />
+                            <c:BlyIcon Source="icon_chevron_down" WidthRequest="16" HeightRequest="16" Tint="{DynamicResource ColorTexteSecondaire}" />
+                        </HorizontalStackLayout>
+                        <VerticalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ChangeWarehouseCommand}" />
+                        </VerticalStackLayout.GestureRecognizers>
+                    </VerticalStackLayout>
+                    <Grid Grid.Column="1" WidthRequest="48" HeightRequest="48" SemanticProperties.Description="Notifications et synchronisation">
+                        <c:BlyIcon Source="icon_bell" />
+                        <Grid.GestureRecognizers><TapGestureRecognizer Command="{Binding OpenSyncCommand}" /></Grid.GestureRecognizers>
+                    </Grid>
+                    <Grid Grid.Column="2" WidthRequest="48" HeightRequest="48" SemanticProperties.Description="Profil et paramètres">
+                        <Border WidthRequest="40" HeightRequest="40" StrokeThickness="0" StrokeShape="RoundRectangle 20" Background="{DynamicResource BrushMarqueFond}">
+                            <Label Text="{Binding Session.Initials}" FontFamily="AtkinsonBold" TextColor="{DynamicResource ColorMarque}" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <Grid.GestureRecognizers><TapGestureRecognizer Command="{Binding OpenSettingsCommand}" /></Grid.GestureRecognizers>
+                    </Grid>
+                </Grid>
+                <c:Banner Kind="{Binding BannerKind}" Icon="{Binding BannerIcon}" Text="{Binding BannerText}" Margin="0" >
+                    <c:Banner.GestureRecognizers><TapGestureRecognizer Command="{Binding OpenSyncCommand}" /></c:Banner.GestureRecognizers>
+                </c:Banner>
+            </VerticalStackLayout>
+
+            <ScrollView Grid.Row="1">
+                <VerticalStackLayout Padding="16,12,16,16" Spacing="14">
+                    <Label Text="{Binding DateLine}" Style="{StaticResource LblSecondaire}" />
+
+                    <!-- Chargement : squelettes statiques, sans animation (écoconception) -->
+                    <Grid IsVisible="{Binding IsLoading}" ColumnDefinitions="*,*" RowDefinitions="128,128" ColumnSpacing="12" RowSpacing="12">
+                        <Border Style="{StaticResource Card}" Grid.Column="0" Grid.Row="0" />
+                        <Border Style="{StaticResource Card}" Grid.Column="1" Grid.Row="0" />
+                        <Border Style="{StaticResource Card}" Grid.Column="0" Grid.Row="1" />
+                        <Border Style="{StaticResource Card}" Grid.Column="1" Grid.Row="1" />
+                    </Grid>
+
+                    <!-- 4 indicateurs -->
+                    <FlexLayout Wrap="Wrap" JustifyContent="SpaceBetween" IsVisible="{Binding IsLoading, Converter={StaticResource Not}}"
+                                BindableLayout.ItemsSource="{Binding Tiles}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource Card}" Padding="14" FlexLayout.Basis="48%" Margin="0,0,0,12">
+                                    <VerticalStackLayout Spacing="4">
+                                        <Border Style="{StaticResource Tuile}" c:Theme.Back="{Binding TileKey}" HorizontalOptions="Start">
+                                            <c:BlyIcon Source="{Binding Icon}" c:Theme.Tint="{Binding IconKey}" WidthRequest="22" HeightRequest="22" />
+                                        </Border>
+                                        <Label Text="{Binding Count}" Style="{StaticResource LblQuantiteL}" />
+                                        <Label Text="{Binding Label}" Style="{StaticResource LblCorpsGras}" />
+                                        <Label Text="{Binding Hint}" Style="{StaticResource LblLegende}" c:Theme.Text="{Binding HintKey}" />
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+
+                    <Label Text="Actions rapides" Style="{StaticResource LblSection}" />
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="56,56" ColumnSpacing="10" RowSpacing="10">
+                        <Border Style="{StaticResource ActionTuile}" Grid.Column="0" Grid.Row="0">
+                            <HorizontalStackLayout Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
+                                <c:BlyIcon Source="icon_download" WidthRequest="22" HeightRequest="22" Tint="{DynamicResource ColorMarque}" />
+                                <Label Text="Réception" Style="{StaticResource LblLien}" />
+                            </HorizontalStackLayout>
+                            <Border.GestureRecognizers><TapGestureRecognizer Command="{Binding OpenReceptionsCommand}" /></Border.GestureRecognizers>
+                        </Border>
+                        <Border Style="{StaticResource ActionTuile}" Grid.Column="1" Grid.Row="0">
+                            <HorizontalStackLayout Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
+                                <c:BlyIcon Source="icon_upload" WidthRequest="22" HeightRequest="22" Tint="{DynamicResource ColorMarque}" />
+                                <Label Text="Bon de sortie" Style="{StaticResource LblLien}" />
+                            </HorizontalStackLayout>
+                            <Border.GestureRecognizers><TapGestureRecognizer Command="{Binding OpenIssuesCommand}" /></Border.GestureRecognizers>
+                        </Border>
+                        <Border Style="{StaticResource ActionTuile}" Grid.Column="0" Grid.Row="1">
+                            <HorizontalStackLayout Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
+                                <c:BlyIcon Source="icon_map_pin" WidthRequest="22" HeightRequest="22" Tint="{DynamicResource ColorMarque}" />
+                                <Label Text="Localiser" Style="{StaticResource LblLien}" />
+                            </HorizontalStackLayout>
+                            <Border.GestureRecognizers><TapGestureRecognizer Command="{Binding OpenLocateCommand}" /></Border.GestureRecognizers>
+                        </Border>
+                        <Border Style="{StaticResource ActionTuile}" Grid.Column="1" Grid.Row="1">
+                            <HorizontalStackLayout Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
+                                <c:BlyIcon Source="icon_clipboard_check" WidthRequest="22" HeightRequest="22" Tint="{DynamicResource ColorMarque}" />
+                                <Label Text="Comptage" Style="{StaticResource LblLien}" />
+                            </HorizontalStackLayout>
+                            <Border.GestureRecognizers><TapGestureRecognizer Command="{Binding OpenCountCommand}" /></Border.GestureRecognizers>
+                        </Border>
+                    </Grid>
+
+                    <Label Text="Derniers mouvements" Style="{StaticResource LblSection}" Margin="0,6,0,0" />
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Movements}" BindableLayout.ItemTemplate="{StaticResource MovementTemplate}"
+                                         IsVisible="{Binding IsLoading, Converter={StaticResource Not}}" />
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <c:BlyTabBar Grid.Row="2" Selected="home" />
+        </Grid>
+
+        <!-- Session expirée (maquette 40) -->
+        <Grid IsVisible="{Binding SessionExpired}" BackgroundColor="{DynamicResource ColorVoile}">
+            <Border Style="{StaticResource Card}" Padding="20" Margin="24" VerticalOptions="Center" StrokeShape="RoundRectangle 20">
+                <VerticalStackLayout Spacing="12">
+                    <Border WidthRequest="44" HeightRequest="44" StrokeThickness="0" StrokeShape="RoundRectangle 22" Background="{DynamicResource BrushAlerteFond}" HorizontalOptions="Start">
+                        <c:BlyIcon Source="icon_lock" WidthRequest="22" HeightRequest="22" Tint="{DynamicResource ColorAlerte}" />
+                    </Border>
+                    <Label Text="Session expirée" Style="{StaticResource LblTitre}" />
+                    <Label Text="Par sécurité, saisissez de nouveau votre code PIN. Vos opérations hors ligne sont conservées." Style="{StaticResource LblSecondaire}" FontSize="16" />
+                    <Button Text="Se reconnecter" Style="{StaticResource BtnPrimaire}" HorizontalOptions="End" Padding="24,0" Command="{Binding ReloginCommand}" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>

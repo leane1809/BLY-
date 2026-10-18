@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="BLY.Views.PickingPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:BLY.Controls"
+             xmlns:vm="clr-namespace:BLY.ViewModels">
+    <Grid>
+        <Grid RowDefinitions="Auto,Auto,*,Auto">
+            <c:TopBar Title="{Binding Title}" Subtitle="{Binding Subtitle}" />
+            <c:StepperBar Grid.Row="1" Steps="Aller|Scanner|Quantité|Valider" Current="{Binding Step}" />
+            <ScrollView Grid.Row="2">
+                <VerticalStackLayout Padding="16" Spacing="14">
+                    <Label Text="Allez à l'emplacement puis scannez son étiquette" Style="{StaticResource LblTitre}" FontSize="20" />
+                    <Border Style="{StaticResource Card}" Padding="14">
+                        <VerticalStackLayout Spacing="8">
+                            <HorizontalStackLayout Spacing="10">
+                                <Border StrokeThickness="0" StrokeShape="RoundRectangle 8" Background="{DynamicResource BrushMarqueFond}" Padding="8,4">
+                                    <HorizontalStackLayout Spacing="6">
+                                        <c:BlyIcon Source="icon_map_pin" WidthRequest="16" HeightRequest="16" Tint="{DynamicResource ColorMarque}" />
+                                        <Label Text="{Binding Location}" Style="{StaticResource LblMonoGras}" FontSize="15" TextColor="{DynamicResource ColorMarque}" />
+                                    </HorizontalStackLayout>
+                                </Border>
+                                <Label Text="Allée 03 · Rayon B · Niv. 2" Style="{StaticResource LblSecondaire}" VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <Label Text="Ciment CPJ 42,5R — sac 50 kg" Style="{StaticResource LblSection}" />
+                            <HorizontalStackLayout Spacing="8">
+                                <Label Text="{Binding Stock}" Style="{StaticResource LblQuantiteXL}" />
+                                <Label Text="sacs · 3 palettes" Style="{StaticResource LblSecondaire}" VerticalOptions="End" Margin="0,0,0,8" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                    <c:Banner Kind="success" Text="{Binding ScanMessage}" IsVisible="{Binding IsValidateStep}" />
+                    <Label Text="Quantité à prélever" Style="{StaticResource LblChamp}" />
+                    <c:QuantityStepper Value="{Binding Quantity, Mode=TwoWay}" Unit="sacs de 50 kg" Maximum="{Binding Stock}" />
+                    <Label Text="{Binding Remaining}" Style="{StaticResource LblSecondaire}" />
+                </VerticalStackLayout>
+            </ScrollView>
+            <Border Grid.Row="3" Style="{StaticResource BarreBas}">
+                <Grid>
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10" IsVisible="{Binding IsScanStep}">
+                        <Button Text="Manque" Style="{StaticResource BtnSecondaire}" Command="{Binding ShortageCommand}" />
+                        <Button Grid.Column="1" Text="Scanner" Style="{StaticResource BtnAccent}" Command="{Binding ScanCommand}" />
+                    </Grid>
+                    <Button Text="Valider la ligne" Style="{StaticResource BtnPrimaire}" Command="{Binding ValidateLineCommand}" IsVisible="{Binding IsValidateStep}" />
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Stock insuffisant (maquette 25) -->
+        <Grid IsVisible="{Binding ShowShortage}" BackgroundColor="{DynamicResource ColorVoile}">
+            <Grid.GestureRecognizers><TapGestureRecognizer Command="{Binding CloseShortageCommand}" /></Grid.GestureRecognizers>
+            <Border Style="{StaticResource Card}" VerticalOptions="End" Padding="20,12,20,20" StrokeShape="RoundRectangle 24,24,0,0">
+                <Border.GestureRecognizers><TapGestureRecognizer /></Border.GestureRecognizers>
+                <VerticalStackLayout Spacing="12">
+                    <BoxView WidthRequest="40" HeightRequest="4" CornerRadius="2" Color="{DynamicResource ColorBordureForte}" HorizontalOptions="Center" />
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Stock insuffisant" Style="{StaticResource LblTitre}" FontSize="20" />
+                        <Grid Grid.Column="1" WidthRequest="48" HeightRequest="48" Margin="0,-8,-8,0">
+                            <c:BlyIcon Source="icon_x" />
+                            <Grid.GestureRecognizers><TapGestureRecognizer Command="{Binding CloseShortageCommand}" /></Grid.GestureRecognizers>
+                        </Grid>
+                    </Grid>
+                    <Label Text="{Binding ShortageText}" Style="{StaticResource LblSecondaire}" FontSize="16" />
+                    <Button Text="{Binding TakeFromText}" Style="{StaticResource BtnPrimaire}" Command="{Binding TakeElsewhereCommand}" />
+                    <Button Text="Préparer partiellement" Style="{StaticResource BtnSecondaire}" Command="{Binding PartialCommand}" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="BLY.Views.LocatePage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:BLY.Controls"
+             xmlns:vm="clr-namespace:BLY.ViewModels">
+    <Grid RowDefinitions="Auto,Auto,*">
+        <c:TopBar Title="Localiser un article" />
+        <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="10" Padding="16,12,16,8">
+            <Border Style="{StaticResource Card}" Padding="12,0" HeightRequest="56">
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                    <c:BlyIcon Source="icon_search" WidthRequest="22" HeightRequest="22" Tint="{DynamicResource ColorTexteSecondaire}" />
+                    <Entry Grid.Column="1" Placeholder="Nom, référence ou code-barres" Text="{Binding Query, Mode=TwoWay}" ReturnType="Search" VerticalOptions="Center" />
+                    <Grid Grid.Column="2" WidthRequest="40" HeightRequest="40" IsVisible="{Binding Query, Converter={StaticResource HasText}}">
+                        <c:BlyIcon Source="icon_x" WidthRequest="20" HeightRequest="20" />
+                        <Grid.GestureRecognizers><TapGestureRecognizer Command="{Binding ClearCommand}" /></Grid.GestureRecognizers>
+                    </Grid>
+                </Grid>
+            </Border>
+            <Border Grid.Column="1" WidthRequest="56" HeightRequest="56" StrokeThickness="0" StrokeShape="RoundRectangle 12" Background="{DynamicResource BrushAccent}" SemanticProperties.Description="Scanner">
+                <c:BlyIcon Source="icon_scan_line" Tint="{DynamicResource ColorSurAccent}" />
+                <Border.GestureRecognizers><TapGestureRecognizer Command="{Binding ScanCommand}" /></Border.GestureRecognizers>
+            </Border>
+        </Grid>
+        <Grid Grid.Row="2">
+            <ScrollView IsVisible="{Binding HasResult}">
+                <VerticalStackLayout Padding="16,8,16,16" Spacing="12">
+                    <Border Style="{StaticResource Card}" Padding="14">
+                        <VerticalStackLayout Spacing="6">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                <Border Style="{StaticResource Tuile}" VerticalOptions="Start"><c:BlyIcon Source="icon_package" WidthRequest="22" HeightRequest="22" Tint="{DynamicResource ColorMarque}" /></Border>
+                                <VerticalStackLayout Grid.Column="1">
+                                    <Label Text="Ciment CPJ 42,5R — sac 50 kg" Style="{StaticResource LblSection}" />
+                                    <Label Text="Réf. CIM-425-50 · Matériaux" Style="{StaticResource LblLegende}" />
+                                </VerticalStackLayout>
+                            </Grid>
+                            <HorizontalStackLayout Spacing="8">
+                                <Label Text="{Binding TotalText}" Style="{StaticResource LblQuantiteXL}" />
+                                <Label Text="sacs · 3 emplacements" Style="{StaticResource LblSecondaire}" VerticalOptions="End" Margin="0,0,0,8" />
+                            </HorizontalStackLayout>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="Valeur : 6 076 000 FCFA" Style="{StaticResource LblLegende}" VerticalOptions="Center" />
+                                <c:Banner Grid.Column="1" Compact="True" Kind="success" Icon="icon_circle_check" Text="Reçu" />
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                    <Label Text="{Binding Spread}" Style="{StaticResource LblSection}" />
+                    <VerticalStackLayout Spacing="8" BindableLayout.ItemsSource="{Binding Results}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource Card}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer CommandParameter="{Binding .}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:LocateViewModel}}, Path=OpenLocationCommand}" />
+                                    </Border.GestureRecognizers>
+                                    <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="12">
+                                        <Border Style="{StaticResource Tuile}"><c:BlyIcon Source="icon_map_pin" WidthRequest="22" HeightRequest="22" Tint="{DynamicResource ColorMarque}" /></Border>
+                                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                            <Label Text="{Binding Code}" Style="{StaticResource LblMonoGras}" FontSize="16" />
+                                            <Label Text="{Binding Detail}" Style="{StaticResource LblLegende}" MaxLines="2" />
+                                        </VerticalStackLayout>
+                                        <VerticalStackLayout Grid.Column="2" VerticalOptions="Center">
+                                            <Label Text="{Binding Qty}" Style="{StaticResource LblMonoGras}" HorizontalTextAlignment="End" />
+                                            <Label Text="{Binding Unit}" Style="{StaticResource LblLegende}" HorizontalTextAlignment="End" />
+                                        </VerticalStackLayout>
+                                        <c:BlyIcon Grid.Column="3" Source="icon_chevron_right" Tint="{DynamicResource ColorTexteSecondaire}" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </ScrollView>
+            <!-- 28 : aucun résultat -->
+            <c:EmptyState IsVisible="{Binding NoResult}" Icon="icon_search" Title="Aucun article trouvé"
+                          Message="Vérifiez l'orthographe ou scannez directement le code-barres de l'article."
+                          ActionText="Scanner un code" AccentAction="True" ActionCommand="{Binding ScanCommand}" />
+            <Label Text="Saisissez un nom, une référence ou scannez un code-barres." Style="{StaticResource LblSecondaire}" HorizontalTextAlignment="Center"
+                   VerticalOptions="Center" Margin="32" IsVisible="{Binding ShowHint}" />
+        </Grid>
+    </Grid>
+</ContentPage>

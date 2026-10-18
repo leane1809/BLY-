@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Arborescence : accès linéaire (splash > onboarding > connexion > entrepôt) puis 4 onglets + Scanner central (page empilée). -->
+<Shell x:Class="BLY.AppShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:BLY.Views"
+       Shell.FlyoutBehavior="Disabled"
+       Shell.NavBarIsVisible="False"
+       Shell.TabBarIsVisible="False"
+       BackgroundColor="{DynamicResource ColorFond}">
+
+    <ShellContent Route="splash" ContentTemplate="{DataTemplate views:SplashPage}" />
+    <ShellContent Route="onboarding" ContentTemplate="{DataTemplate views:OnboardingPage}" />
+    <ShellContent Route="login" ContentTemplate="{DataTemplate views:LoginPage}" />
+    <ShellContent Route="warehouse" ContentTemplate="{DataTemplate views:WarehousePage}" />
+
+    <!-- La barre d'onglets native est masquée : BlyTabBar (avec le bouton Scanner ambre) est affichée par chaque page. -->
+    <TabBar Route="main">
+        <Tab Route="dashboard"><ShellContent ContentTemplate="{DataTemplate views:DashboardPage}" /></Tab>
+        <Tab Route="zones"><ShellContent ContentTemplate="{DataTemplate views:ZonesPage}" /></Tab>
+        <Tab Route="inventory"><ShellContent ContentTemplate="{DataTemplate views:InventoryPage}" /></Tab>
+        <Tab Route="history"><ShellContent ContentTemplate="{DataTemplate views:HistoryPage}" /></Tab>
+    </TabBar>
+</Shell>

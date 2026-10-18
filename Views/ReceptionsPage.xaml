@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="BLY.Views.ReceptionsPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:BLY.Controls"
+             xmlns:vm="clr-namespace:BLY.ViewModels">
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+        <c:TopBar Title="Réceptions" Subtitle="{Binding Subtitle}" RightIcon="icon_funnel" />
+        <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+            <HorizontalStackLayout Spacing="8" Padding="16,12,16,8">
+                <c:Chip Text="{Binding AttenduesText}" IsSelected="{Binding IsAttendues, Mode=OneWay}" Command="{Binding SetTabCommand}" CommandParameter="0" />
+                <c:Chip Text="Non planifiées" IsSelected="{Binding IsUnplanned, Mode=OneWay}" Command="{Binding SetTabCommand}" CommandParameter="1" />
+                <c:Chip Text="Terminées" IsSelected="{Binding IsDone, Mode=OneWay}" Command="{Binding SetTabCommand}" CommandParameter="2" />
+            </HorizontalStackLayout>
+        </ScrollView>
+        <Grid Grid.Row="2">
+            <CollectionView ItemsSource="{Binding Items}" IsVisible="{Binding HasItems}" Margin="16,0">
+                <CollectionView.ItemsLayout><LinearItemsLayout Orientation="Vertical" ItemSpacing="10" /></CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource Card}" Padding="14">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer CommandParameter="{Binding .}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ReceptionsViewModel}}, Path=OpenCommand}" />
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                <Border Style="{StaticResource Tuile}" VerticalOptions="Start">
+                                    <c:BlyIcon Source="icon_download" WidthRequest="22" HeightRequest="22" Tint="{DynamicResource ColorMarque}" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Label Text="{Binding Id}" Style="{StaticResource LblMonoGras}" FontSize="15" />
+                                        <Label Text="{Binding Supplier}" Style="{StaticResource LblCorpsGras}" />
+                                    </HorizontalStackLayout>
+                                    <Label Text="{Binding Lines}" Style="{StaticResource LblLegende}" MaxLines="1" LineBreakMode="TailTruncation" />
+                                    <c:Banner Compact="True" Kind="info" Icon="icon_clock" Text="En attente" />
+                                    <Label Text="{Binding Planned}" Style="{StaticResource LblMono}" FontSize="14" />
+                                </VerticalStackLayout>
+                                <c:BlyIcon Grid.Column="2" Source="icon_chevron_right" Tint="{DynamicResource ColorTexteSecondaire}" VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <!-- 42 : aucune donnée -->
+            <c:EmptyState IsVisible="{Binding IsEmpty}" Icon="icon_package" Title="Aucune réception prévue"
+                          Message="Les réceptions attendues apparaîtront ici. Vous pouvez aussi enregistrer une livraison non planifiée."
+                          ActionText="Nouvelle réception" ActionCommand="{Binding NewReceptionCommand}" />
+            <!-- 41 : erreur de chargement -->
+            <c:EmptyState IsVisible="{Binding IsError}" Icon="icon_circle_alert" Title="Chargement impossible"
+                          Message="Le serveur ne répond pas. Vos données locales restent disponibles."
+                          ActionText="Réessayer" ActionCommand="{Binding RetryCommand}" />
+        </Grid>
+        <Border Grid.Row="3" Style="{StaticResource BarreBas}">
+            <Button Text="+ Réception non planifiée" Style="{StaticResource BtnPrimaire}" Command="{Binding NewReceptionCommand}" />
+        </Border>
+    </Grid>
+</ContentPage>

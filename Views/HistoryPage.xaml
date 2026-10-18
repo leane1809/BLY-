@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="BLY.Views.HistoryPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:BLY.Controls"
+             xmlns:vm="clr-namespace:BLY.ViewModels">
+    <Grid>
+        <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
+            <c:TopBar Title="Historique" Subtitle="Mouvements · Dépôt Bonabéri" ShowBack="False" RightIcon="icon_funnel" RightCommand="{Binding OpenFiltersCommand}" />
+            <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="10" Padding="16,12,16,8">
+                <Border Style="{StaticResource Card}" Padding="12,0" HeightRequest="56">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <c:BlyIcon Source="icon_search" WidthRequest="22" HeightRequest="22" Tint="{DynamicResource ColorTexteSecondaire}" />
+                        <Entry Grid.Column="1" Placeholder="Article, bon, utilisateur…" Text="{Binding Search, Mode=TwoWay}" VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+                <Border Grid.Column="1" WidthRequest="56" HeightRequest="56" StrokeThickness="0" StrokeShape="RoundRectangle 12" Background="{DynamicResource BrushAccent}" SemanticProperties.Description="Scanner">
+                    <c:BlyIcon Source="icon_scan_line" Tint="{DynamicResource ColorSurAccent}" />
+                    <Border.GestureRecognizers><TapGestureRecognizer Command="{Binding ScanCommand}" /></Border.GestureRecognizers>
+                </Border>
+            </Grid>
+            <ScrollView Grid.Row="2" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                <HorizontalStackLayout Spacing="8" Padding="16,0,16,8">
+                    <c:Chip Text="{Binding TypeSummary}" IsSelected="True" Command="{Binding OpenFiltersCommand}" />
+                    <c:Chip Text="{Binding PeriodSummary}" IsSelected="True" Command="{Binding OpenFiltersCommand}" />
+                    <c:Chip Text="Toutes zones" Command="{Binding OpenFiltersCommand}" />
+                </HorizontalStackLayout>
+            </ScrollView>
+            <Grid Grid.Row="3">
+                <CollectionView ItemsSource="{Binding Groups}" IsGrouped="True" Margin="16,0" IsVisible="{Binding IsEmpty, Converter={StaticResource Not}}"
+                                ItemTemplate="{StaticResource MovementTemplate}" GroupHeaderTemplate="{StaticResource SectionHeaderTemplate}" />
+                <c:EmptyState IsVisible="{Binding IsEmpty}" Icon="icon_history" Title="Aucun mouvement"
+                              Message="Aucun mouvement ne correspond à ces filtres." ActionText="Effacer les filtres" ActionCommand="{Binding ClearFiltersCommand}" />
+            </Grid>
+            <c:BlyTabBar Grid.Row="4" Selected="history" />
+        </Grid>
+
+        <!-- Filtres avancés (maquette 34) -->
+        <Grid IsVisible="{Binding ShowFilters}" BackgroundColor="{DynamicResource ColorVoile}">
+            <Grid.GestureRecognizers><TapGestureRecognizer Command="{Binding CloseFiltersCommand}" /></Grid.GestureRecognizers>
+            <Border Style="{StaticResource Card}" VerticalOptions="End" Padding="20,12,20,20" StrokeShape="RoundRectangle 24,24,0,0">
+                <Border.GestureRecognizers><TapGestureRecognizer /></Border.GestureRecognizers>
+                <VerticalStackLayout Spacing="12">
+                    <BoxView WidthRequest="40" HeightRequest="4" CornerRadius="2" Color="{DynamicResource ColorBordureForte}" HorizontalOptions="Center" />
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Filtrer les mouvements" Style="{StaticResource LblTitre}" FontSize="20" />
+                        <Button Grid.Column="1" Text="Effacer" Style="{StaticResource BtnTexte}" Command="{Binding ClearFiltersCommand}" />
+                    </Grid>
+                    <ScrollView MaximumHeightRequest="400">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="Type de mouvement" Style="{StaticResource LblChamp}" />
+                            <FlexLayout Wrap="Wrap" AlignItems="Start">
+                                <c:Chip Text="Entrées" IsSelected="{Binding ShowEntries, Mode=TwoWay}" Margin="0,0,8,8" />
+                                <c:Chip Text="Sorties" IsSelected="{Binding ShowExits, Mode=TwoWay}" Margin="0,0,8,8" />
+                                <c:Chip Text="Ajustements" IsSelected="{Binding ShowAdjust, Mode=TwoWay}" Margin="0,0,8,8" />
+                                <c:Chip Text="Transferts" IsSelected="{Binding ShowTransfers, Mode=TwoWay}" Margin="0,0,8,8" />
+                            </FlexLayout>
+                            <Label Text="Période" Style="{StaticResource LblChamp}" />
+                            <FlexLayout Wrap="Wrap" AlignItems="Start">
+                                <c:Chip Text="Aujourd'hui" IsSelected="{Binding IsToday, Mode=OneWay}" Command="{Binding SetPeriodCommand}" CommandParameter="0" Margin="0,0,8,8" />
+                                <c:Chip Text="7 jours" IsSelected="{Binding Is7Days, Mode=OneWay}" Command="{Binding SetPeriodCommand}" CommandParameter="1" Margin="0,0,8,8" />
+                                <c:Chip Text="30 jours" IsSelected="{Binding Is30Days, Mode=OneWay}" Command="{Binding SetPeriodCommand}" CommandParameter="2" Margin="0,0,8,8" />
+                                <c:Chip Text="Personnalisée" IsSelected="{Binding IsCustom, Mode=OneWay}" Command="{Binding SetPeriodCommand}" CommandParameter="3" Margin="0,0,8,8" />
+                            </FlexLayout>
+                            <Label Text="Zone" Style="{StaticResource LblChamp}" />
+                            <FlexLayout Wrap="Wrap" AlignItems="Start">
+                                <c:Chip Text="Zone A" IsSelected="{Binding ZoneA, Mode=TwoWay}" Margin="0,0,8,8" />
+                                <c:Chip Text="Zone B" IsSelected="{Binding ZoneB, Mode=TwoWay}" Margin="0,0,8,8" />
+                                <c:Chip Text="Zone C" IsSelected="{Binding ZoneC, Mode=TwoWay}" Margin="0,0,8,8" />
+                                <c:Chip Text="Quai" IsSelected="{Binding Quai, Mode=TwoWay}" Margin="0,0,8,8" />
+                            </FlexLayout>
+                        </VerticalStackLayout>
+                    </ScrollView>
+                    <Button Text="{Binding ApplyText}" Style="{StaticResource BtnPrimaire}" Command="{Binding CloseFiltersCommand}" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>

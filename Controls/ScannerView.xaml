@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView x:Class="BLY.Controls.ScannerView"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:BLY.Controls"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+             x:Name="Self">
+    <Grid x:Name="Root" BindingContext="{x:Reference Self}" BackgroundColor="{DynamicResource ColorCamera}">
+
+        <!-- Caméra + cadre de visée -->
+        <Grid IsVisible="{Binding CameraAllowed}">
+            <zxing:CameraBarcodeReaderView x:Name="Reader" IsDetecting="{Binding IsActive}" BarcodesDetected="OnDetected" />
+            <GraphicsView x:Name="FrameView" WidthRequest="260" HeightRequest="170" HorizontalOptions="Center"
+                          VerticalOptions="Center" InputTransparent="True" />
+            <Border StrokeThickness="0" StrokeShape="RoundRectangle 20" BackgroundColor="#B3000000" Padding="14,8"
+                    HorizontalOptions="Center" VerticalOptions="End" Margin="0,0,0,84">
+                <HorizontalStackLayout Spacing="8">
+                    <c:BlyIcon x:Name="HintIcon" Source="icon_scan_line" WidthRequest="18" HeightRequest="18" Tint="#FFC21F" />
+                    <Label Text="{Binding Hint}" TextColor="White" FontSize="14" FontFamily="AtkinsonMedium" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Border>
+            <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="End" Spacing="12" Margin="0,0,0,20">
+                <Border StrokeThickness="0" StrokeShape="RoundRectangle 22" BackgroundColor="#B3000000" Padding="16,0" HeightRequest="44"
+                        SemanticProperties.Description="Allumer ou éteindre la lampe">
+                    <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                        <c:BlyIcon Source="icon_flashlight" WidthRequest="20" HeightRequest="20" Tint="White" />
+                        <Label Text="Lampe" TextColor="White" FontSize="14" FontFamily="AtkinsonMedium" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnTorch" />
+                    </Border.GestureRecognizers>
+                </Border>
+                <Border StrokeThickness="0" StrokeShape="RoundRectangle 22" BackgroundColor="#B3000000" Padding="16,0" HeightRequest="44"
+                        SemanticProperties.Description="Saisir le code à la main">
+                    <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                        <c:BlyIcon Source="icon_keyboard" WidthRequest="20" HeightRequest="20" Tint="White" />
+                        <Label Text="Saisie manuelle" TextColor="White" FontSize="14" FontFamily="AtkinsonMedium" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnManual" />
+                    </Border.GestureRecognizers>
+                </Border>
+            </HorizontalStackLayout>
+        </Grid>
+
+        <!-- Permission caméra refusée (maquette 37) -->
+        <Grid IsVisible="{Binding CameraDenied}" BackgroundColor="{DynamicResource ColorFond}" RowDefinitions="*,Auto">
+            <c:EmptyState Icon="icon_camera_off" Title="Accès à la caméra refusé"
+                          Message="Autorisez la caméra dans les paramètres Android pour scanner, ou saisissez le code à la main."
+                          ActionText="Ouvrir les paramètres" ActionCommand="{Binding OpenSettingsCommand}" />
+            <Button Grid.Row="1" Text="Saisir le code à la main" Style="{StaticResource BtnSecondaire}" Margin="16,0,16,16"
+                    Command="{Binding ManualCommand}" />
+        </Grid>
+    </Grid>
+</ContentView>

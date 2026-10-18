@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="BLY.Views.IssueValidationPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:BLY.Controls"
+             xmlns:vm="clr-namespace:BLY.ViewModels">
+    <Grid RowDefinitions="Auto,*,Auto">
+        <c:TopBar Title="{Binding Title}" Subtitle="{Binding Subtitle}" RightIcon="icon_printer" />
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="16" Spacing="10">
+                <VerticalStackLayout Spacing="8" BindableLayout.ItemsSource="{Binding Lines}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource Card}">
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                    <Border Style="{StaticResource Tuile}" Background="{DynamicResource BrushInfoFond}" VerticalOptions="Start">
+                                        <c:BlyIcon Source="icon_upload" WidthRequest="22" HeightRequest="22" Tint="{DynamicResource ColorInfo}" />
+                                    </Border>
+                                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                        <Label Text="{Binding Article}" Style="{StaticResource LblCorpsGras}" />
+                                        <Label Text="{Binding Where}" Style="{StaticResource LblLegende}" />
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout Grid.Column="2" VerticalOptions="Center">
+                                        <Label Text="{Binding Qty}" Style="{StaticResource LblMonoGras}" HorizontalTextAlignment="End" />
+                                        <Label Text="{Binding Unit}" Style="{StaticResource LblLegende}" HorizontalTextAlignment="End" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+                <Border Style="{StaticResource Card}" Padding="14">
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto"><Label Text="Client" Style="{StaticResource LblSecondaire}" /><Label Grid.Column="1" Text="{Binding Customer}" Style="{StaticResource LblCorpsGras}" /></Grid>
+                        <Grid ColumnDefinitions="*,Auto"><Label Text="Valeur totale" Style="{StaticResource LblSecondaire}" /><Label Grid.Column="1" Text="{Binding TotalValue}" Style="{StaticResource LblMonoGras}" /></Grid>
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+        <Border Grid.Row="2" Style="{StaticResource BarreBas}">
+            <Grid>
+                <!-- Réservé au gérant : masqué (et non grisé) pour le magasinier -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10" IsVisible="{Binding Session.IsManager}">
+                    <Button Text="Refuser" Style="{StaticResource BtnSecondaire}" Command="{Binding RefuseCommand}" />
+                    <Button Grid.Column="1" Text="Valider" Style="{StaticResource BtnPrimaire}" Command="{Binding ValidateCommand}" />
+                </Grid>
+                <c:Banner Kind="info" Text="Validation réservée au gérant : le bon lui est transmis." IsVisible="{Binding Session.IsManager, Converter={StaticResource Not}}" />
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>

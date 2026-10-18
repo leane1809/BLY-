@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="BLY.Views.ForgotPinPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:BLY.Controls"
+             xmlns:vm="clr-namespace:BLY.ViewModels">
+    <Grid RowDefinitions="Auto,*,Auto">
+        <c:TopBar Title="Code PIN oublié" />
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="24,24,24,16" Spacing="16">
+                <Border WidthRequest="72" HeightRequest="72" StrokeThickness="0" StrokeShape="RoundRectangle 36" Background="{DynamicResource BrushMarqueFond}" HorizontalOptions="Start">
+                    <c:BlyIcon Source="icon_lock" WidthRequest="34" HeightRequest="34" Tint="{DynamicResource ColorMarque}" />
+                </Border>
+                <Label Text="Recevez un code par SMS" Style="{StaticResource LblTitreXL}" />
+                <Label Text="Saisissez le numéro utilisé à l'inscription. Nous enverrons un code à 6 chiffres pour choisir un nouveau code PIN." Style="{StaticResource LblSecondaire}" FontSize="16" />
+                <c:FieldEntry Label="Numéro de téléphone" Icon="icon_smartphone" InputKeyboard="Telephone"
+                              Text="{Binding Phone, Mode=TwoWay}" ErrorText="{Binding PhoneError}" HelperText="9 chiffres après +237" />
+                <c:Banner Kind="info" Icon="icon_clock" Text="Le code expire au bout de 10 minutes" />
+            </VerticalStackLayout>
+        </ScrollView>
+        <Border Grid.Row="2" Style="{StaticResource BarreBas}">
+            <Button Text="Recevoir le code par SMS" Style="{StaticResource BtnPrimaire}" Command="{Binding SendCodeCommand}" />
+        </Border>
+    </Grid>
+</ContentPage>

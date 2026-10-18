@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView x:Class="BLY.Controls.FieldEntry"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:BLY.Controls"
+             x:Name="Self">
+    <VerticalStackLayout BindingContext="{x:Reference Self}" Spacing="6">
+        <Label Text="{Binding Label}" Style="{StaticResource LblChamp}" IsVisible="{Binding HasLabel}" />
+        <Border x:Name="Box" Background="{DynamicResource BrushSurface}" Stroke="{DynamicResource BrushBordure}"
+                StrokeThickness="1" StrokeShape="RoundRectangle 12" HeightRequest="56" Padding="14,0,4,0">
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                <c:BlyIcon Grid.Column="0" Source="{Binding Icon}" IsVisible="{Binding HasIcon}"
+                           WidthRequest="22" HeightRequest="22" Tint="{DynamicResource ColorTexteSecondaire}" />
+                <Entry x:Name="Input" Grid.Column="1" VerticalOptions="Center"
+                       Text="{Binding Text, Mode=TwoWay}" Placeholder="{Binding Placeholder}"
+                       Keyboard="{Binding InputKeyboard}" IsPassword="{Binding IsHidden}" MaxLength="{Binding MaxLength}"
+                       Focused="OnFocused" Unfocused="OnUnfocused" />
+                <HorizontalStackLayout Grid.Column="2" Spacing="0" VerticalOptions="Center">
+                    <Grid WidthRequest="48" HeightRequest="48" IsVisible="{Binding ShowToggle}"
+                          SemanticProperties.Description="Afficher ou masquer le code">
+                        <c:BlyIcon Source="{Binding ToggleIcon}" Tint="{DynamicResource ColorTexteSecondaire}" />
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnToggle" />
+                        </Grid.GestureRecognizers>
+                    </Grid>
+                    <c:BlyIcon Source="icon_circle_alert" Tint="{DynamicResource ColorErreur}" IsVisible="{Binding HasError}" Margin="0,0,10,0" />
+                    <c:BlyIcon Source="icon_circle_check" Tint="{DynamicResource ColorSucces}" IsVisible="{Binding IsValid}" Margin="0,0,10,0" />
+                </HorizontalStackLayout>
+            </Grid>
+        </Border>
+        <HorizontalStackLayout Spacing="6" IsVisible="{Binding HasFootnote}">
+            <c:BlyIcon x:Name="FootIcon" Source="icon_info" WidthRequest="16" HeightRequest="16" VerticalOptions="Start" Margin="0,2,0,0" />
+            <Label x:Name="Foot" Text="{Binding FootnoteText}" Style="{StaticResource LblLegende}" />
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentView>

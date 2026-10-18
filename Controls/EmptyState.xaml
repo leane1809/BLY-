@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView x:Class="BLY.Controls.EmptyState"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:BLY.Controls"
+             x:Name="Self">
+    <VerticalStackLayout BindingContext="{x:Reference Self}" Spacing="14" Padding="32,24" VerticalOptions="Center">
+        <Border WidthRequest="96" HeightRequest="96" StrokeThickness="0" StrokeShape="RoundRectangle 48"
+                Background="{DynamicResource BrushMarqueFond}" HorizontalOptions="Center">
+            <c:BlyIcon Source="{Binding Icon}" WidthRequest="48" HeightRequest="48" Tint="{DynamicResource ColorMarque}" />
+        </Border>
+        <Label Text="{Binding Title}" Style="{StaticResource LblTitre}" HorizontalTextAlignment="Center" />
+        <Label Text="{Binding Message}" Style="{StaticResource LblSecondaire}" HorizontalTextAlignment="Center" />
+        <Button x:Name="ActionButton" Text="{Binding ActionText}" Command="{Binding ActionCommand}" IsVisible="{Binding HasAction}"
+                Style="{StaticResource BtnPrimaire}" Margin="0,8,0,0" HorizontalOptions="Fill" />
+    </VerticalStackLayout>
+</ContentView>

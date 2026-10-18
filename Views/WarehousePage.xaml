@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="BLY.Views.WarehousePage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:BLY.Controls"
+             xmlns:vm="clr-namespace:BLY.ViewModels">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="24,40,24,16" Spacing="14">
+                <Label Text="{Binding Greeting}" Style="{StaticResource LblSecondaire}" FontSize="16" />
+                <Label Text="Dans quel entrepôt travaillez-vous aujourd'hui ?" Style="{StaticResource LblTitreXL}" />
+                <VerticalStackLayout Spacing="10" Margin="0,8,0,0" BindableLayout.ItemsSource="{Binding Warehouses}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource Card}" Padding="14">
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
+                                        <Setter Property="Stroke" Value="{DynamicResource BrushMarque}" />
+                                        <Setter Property="StrokeThickness" Value="2" />
+                                        <Setter Property="Background" Value="{DynamicResource BrushMarqueFond}" />
+                                    </DataTrigger>
+                                </Border.Triggers>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{Binding .}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:WarehouseViewModel}}, Path=SelectCommand}" />
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                    <Border WidthRequest="24" HeightRequest="24" StrokeShape="RoundRectangle 12" StrokeThickness="2"
+                                            Stroke="{DynamicResource BrushMarque}" Background="Transparent" VerticalOptions="Start">
+                                        <Border WidthRequest="12" HeightRequest="12" StrokeThickness="0" StrokeShape="RoundRectangle 6"
+                                                Background="{DynamicResource BrushMarque}" IsVisible="{Binding IsSelected}"
+                                                HorizontalOptions="Center" VerticalOptions="Center" />
+                                    </Border>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                        <Label Text="{Binding Name}" Style="{StaticResource LblSection}" />
+                                        <Label Text="{Binding Detail}" Style="{StaticResource LblSecondaire}" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+                <Label Text="Vous pourrez changer d'entrepôt à tout moment depuis la barre du haut." Style="{StaticResource LblSecondaire}" />
+            </VerticalStackLayout>
+        </ScrollView>
+        <Border Grid.Row="1" Style="{StaticResource BarreBas}">
+            <Button Text="{Binding ContinueText}" Style="{StaticResource BtnPrimaire}" Command="{Binding ContinueCommand}" />
+        </Border>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="BLY.Views.RegisterPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:BLY.Controls"
+             xmlns:vm="clr-namespace:BLY.ViewModels">
+    <Grid RowDefinitions="Auto,*,Auto">
+        <c:TopBar Title="Créer un compte" Subtitle="Gérant ou magasinier" />
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="16" Spacing="16">
+                <c:Banner Kind="error" Icon="icon_cloud_off" Text="{Binding Summary}" IsVisible="{Binding HasSummary}" />
+                <c:FieldEntry Label="Nom complet" Icon="icon_user" Placeholder="Jean Mbarga"
+                              Text="{Binding FullName, Mode=TwoWay}" ErrorText="{Binding FullNameError}" />
+                <c:FieldEntry Label="Numéro de téléphone" Icon="icon_smartphone" InputKeyboard="Telephone"
+                              Text="{Binding Phone, Mode=TwoWay}" ErrorText="{Binding PhoneError}"
+                              IsValid="{Binding PhoneValid}" HelperText="Un SMS de vérification sera envoyé" />
+                <c:FieldEntry Label="Entreprise" Icon="icon_building_2" Text="{Binding Company, Mode=TwoWay}" />
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Rôle" Style="{StaticResource LblChamp}" />
+                    <HorizontalStackLayout Spacing="24">
+                        <RadioButton Content="Gérant" GroupName="role" IsChecked="{Binding IsManager, Mode=TwoWay}" />
+                        <RadioButton Content="Magasinier" GroupName="role" IsChecked="{Binding IsStorekeeper, Mode=TwoWay}" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <c:FieldEntry Label="Code PIN" IsPassword="True" InputKeyboard="Numeric" MaxLength="4" Text="{Binding Pin, Mode=TwoWay}" />
+                    <c:FieldEntry Grid.Column="1" Label="Confirmation" IsPassword="True" InputKeyboard="Numeric" MaxLength="4"
+                                  Text="{Binding PinConfirm, Mode=TwoWay}" ErrorText="{Binding PinConfirmError}" />
+                </Grid>
+                <HorizontalStackLayout Spacing="4">
+                    <CheckBox IsChecked="{Binding AcceptTerms, Mode=TwoWay}" VerticalOptions="Center" />
+                    <Label Text="J'accepte les conditions d'utilisation" Style="{StaticResource LblCorps}" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+        <Border Grid.Row="2" Style="{StaticResource BarreBas}">
+            <Button Text="Créer mon compte" Style="{StaticResource BtnPrimaire}" Command="{Binding CreateCommand}" IsEnabled="{Binding CanSubmit}" />
+        </Border>
+    </Grid>
+</ContentPage>

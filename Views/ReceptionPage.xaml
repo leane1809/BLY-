@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="BLY.Views.ReceptionPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:BLY.Controls"
+             xmlns:vm="clr-namespace:BLY.ViewModels">
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+        <c:TopBar Title="{Binding Title}" Subtitle="{Binding Subtitle}" BackCommand="{Binding BackCommand}" />
+        <c:StepperBar Grid.Row="1" Steps="Scanner|Contrôler|Ranger|Valider" Current="{Binding Step}" />
+
+        <Grid Grid.Row="2">
+            <!-- Étape 1 : scan de l'article (maquette 18) -->
+            <Grid IsVisible="{Binding IsStep1}" RowDefinitions="*,Auto">
+                <c:ScannerView x:Name="Scanner" IsActive="{Binding IsStep1}" />
+                <VerticalStackLayout Grid.Row="1" Padding="16" Spacing="8" BackgroundColor="{DynamicResource ColorFond}">
+                    <Label Text="Prochain article attendu" Style="{StaticResource LblChamp}" />
+                    <Border Style="{StaticResource Card}" Padding="12">
+                        <Border.GestureRecognizers><TapGestureRecognizer Command="{Binding SimulateScanCommand}" /></Border.GestureRecognizers>
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                            <Border Style="{StaticResource Tuile}"><c:BlyIcon Source="icon_package" WidthRequest="22" HeightRequest="22" Tint="{DynamicResource ColorMarque}" /></Border>
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                <Label Text="{Binding CurrentLine.Article}" Style="{StaticResource LblCorpsGras}" />
+                                <Label Text="{Binding CurrentLine.Reference}" Style="{StaticResource LblLegende}" />
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="2" VerticalOptions="Center">
+                                <Label Text="{Binding NextExpected}" Style="{StaticResource LblMonoGras}" HorizontalTextAlignment="End" />
+                                <Label Text="{Binding CurrentLine.Unit}" Style="{StaticResource LblLegende}" HorizontalTextAlignment="End" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- Étape 2 : quantité et contrôle (maquette 19) -->
+            <ScrollView IsVisible="{Binding IsStep2}">
+                <VerticalStackLayout Padding="16" Spacing="14">
+                    <Border Style="{StaticResource Card}" Padding="14">
+                        <VerticalStackLayout Spacing="8">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                <Border Style="{StaticResource Tuile}"><c:BlyIcon Source="icon_package" WidthRequest="22" HeightRequest="22" Tint="{DynamicResource ColorMarque}" /></Border>
+                                <VerticalStackLayout Grid.Column="1">
+                                    <Label Text="{Binding CurrentLine.Article}" Style="{StaticResource LblSection}" />
+                                    <Label Text="{Binding CurrentLine.Reference, StringFormat='Réf. {0}'}" Style="{StaticResource LblLegende}" />
+                                </VerticalStackLayout>
+                            </Grid>
+                            <HorizontalStackLayout Spacing="8">
+                                <Label Text="{Binding CurrentLine.Expected}" Style="{StaticResource LblQuantiteXL}" />
+                                <Label Text="{Binding CurrentLine.Unit, StringFormat='{0} attendues'}" Style="{StaticResource LblSecondaire}" VerticalOptions="End" Margin="0,0,0,8" />
+                            </HorizontalStackLayout>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="{Binding CurrentLine.UnitPrice, StringFormat='Prix unitaire : {0}'}" Style="{StaticResource LblLegende}" VerticalOptions="Center" />
+                                <c:Banner Grid.Column="1" Compact="True" Kind="info" Icon="icon_clock" Text="En attente" />
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                    <Label Text="Quantité reçue" Style="{StaticResource LblChamp}" />
+                    <c:QuantityStepper Value="{Binding CurrentLine.Received, Mode=TwoWay}" Unit="{Binding CurrentLine.Unit, StringFormat='{0} comptées'}" />
+                    <Border Style="{StaticResource Card}" Stroke="{DynamicResource BrushErreurBord}" StrokeThickness="2" IsVisible="{Binding CurrentLine.HasDelta}" Padding="14">
+                        <VerticalStackLayout Spacing="8">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="Écart constaté" Style="{StaticResource LblCorpsGras}" />
+                                <Label Grid.Column="1" Text="{Binding CurrentLine.Reference}" Style="{StaticResource LblMono}" FontSize="14" />
+                            </Grid>
+                            <Grid ColumnDefinitions="*,*,*">
+                                <VerticalStackLayout><Label Text="Attendu" Style="{StaticResource LblLegende}" /><Label Text="{Binding CurrentLine.Expected}" Style="{StaticResource LblMonoGras}" /></VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1"><Label Text="Reçu" Style="{StaticResource LblLegende}" /><Label Text="{Binding CurrentLine.Received}" Style="{StaticResource LblMonoGras}" /></VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="2">
+                                    <Label Text="Écart" Style="{StaticResource LblLegende}" />
+                                    <HorizontalStackLayout Spacing="4">
+                                        <c:BlyIcon Source="icon_triangle_alert" WidthRequest="18" HeightRequest="18" Tint="{DynamicResource ColorErreur}" />
+                                        <Label Text="{Binding CurrentLine.DeltaText}" Style="{StaticResource LblMonoGras}" TextColor="{DynamicResource ColorErreur}" />
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                    <HorizontalStackLayout Spacing="4">
+                        <CheckBox IsChecked="{Binding ControlChecked, Mode=TwoWay}" VerticalOptions="Center" />
+                        <Label Text="Contrôle visuel effectué" Style="{StaticResource LblCorps}" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <!-- Étape 3 : affectation à un emplacement (maquette 20) -->
+            <ScrollView IsVisible="{Binding IsStep3}">
+                <VerticalStackLayout Padding="16" Spacing="12">
+                    <Label Text="{Binding RangePrompt}" Style="{StaticResource LblTitre}" />
+                    <VerticalStackLayout Spacing="10" BindableLayout.ItemsSource="{Binding Suggestions}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource Card}" Padding="14">
+                                    <Border.Triggers>
+                                        <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="Stroke" Value="{DynamicResource BrushMarque}" />
+                                            <Setter Property="StrokeThickness" Value="2" />
+                                            <Setter Property="Background" Value="{DynamicResource BrushMarqueFond}" />
+                                        </DataTrigger>
+                                    </Border.Triggers>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer CommandParameter="{Binding .}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ReceptionViewModel}}, Path=SelectLocationCommand}" />
+                                    </Border.GestureRecognizers>
+                                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                        <Border WidthRequest="24" HeightRequest="24" StrokeShape="RoundRectangle 12" StrokeThickness="2" Stroke="{DynamicResource BrushMarque}" Background="Transparent" VerticalOptions="Start">
+                                            <Border WidthRequest="12" HeightRequest="12" StrokeThickness="0" StrokeShape="RoundRectangle 6" Background="{DynamicResource BrushMarque}"
+                                                    IsVisible="{Binding IsSelected}" HorizontalOptions="Center" VerticalOptions="Center" />
+                                        </Border>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                            <HorizontalStackLayout Spacing="8">
+                                                <Label Text="{Binding Code}" Style="{StaticResource LblMonoGras}" />
+                                                <Border StrokeThickness="0" StrokeShape="RoundRectangle 8" Background="{DynamicResource BrushAccent}" Padding="8,2" IsVisible="{Binding IsSuggested}" VerticalOptions="Center">
+                                                    <Label Text="Suggéré" FontFamily="AtkinsonBold" FontSize="13" TextColor="{DynamicResource ColorSurAccent}" />
+                                                </Border>
+                                            </HorizontalStackLayout>
+                                            <Label Text="{Binding Reason}" Style="{StaticResource LblSecondaire}" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <!-- Étape 4 : récapitulatif (maquette 21) -->
+            <ScrollView IsVisible="{Binding IsStep4}">
+                <VerticalStackLayout Padding="16" Spacing="10">
+                    <VerticalStackLayout Spacing="8" BindableLayout.ItemsSource="{Binding Lines}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource Card}">
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                        <Border Style="{StaticResource Tuile}" Background="{DynamicResource BrushSuccesFond}" VerticalOptions="Start">
+                                            <c:BlyIcon Source="icon_download" WidthRequest="22" HeightRequest="22" Tint="{DynamicResource ColorSucces}" />
+                                        </Border>
+                                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                            <Label Text="{Binding Article}" Style="{StaticResource LblCorpsGras}" />
+                                            <Label Text="{Binding Location, StringFormat='→ {0}'}" Style="{StaticResource LblLegende}" />
+                                            <Label Text="{Binding DeltaText, StringFormat='Écart {0}'}" Style="{StaticResource LblErreur}" IsVisible="{Binding HasDelta}" />
+                                        </VerticalStackLayout>
+                                        <VerticalStackLayout Grid.Column="2" VerticalOptions="Center">
+                                            <Label Text="{Binding Received, StringFormat='+{0}'}" Style="{StaticResource LblMonoGras}" TextColor="{DynamicResource ColorSucces}" HorizontalTextAlignment="End" />
+                                            <Label Text="{Binding Unit}" Style="{StaticResource LblLegende}" HorizontalTextAlignment="End" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                    <Border Style="{StaticResource Card}" Padding="14">
+                        <VerticalStackLayout Spacing="8">
+                            <Grid ColumnDefinitions="*,Auto"><Label Text="Articles" Style="{StaticResource LblSecondaire}" /><Label Grid.Column="1" Text="{Binding RecapArticles}" Style="{StaticResource LblMonoGras}" FontSize="15" /></Grid>
+                            <Grid ColumnDefinitions="*,Auto" IsVisible="{Binding HasAnyDelta}"><Label Text="Écart signalé" Style="{StaticResource LblSecondaire}" /><Label Grid.Column="1" Text="{Binding RecapDelta}" Style="{StaticResource LblMonoGras}" FontSize="15" TextColor="{DynamicResource ColorErreur}" /></Grid>
+                            <Grid ColumnDefinitions="*,Auto"><Label Text="Valeur reçue" Style="{StaticResource LblSecondaire}" /><Label Grid.Column="1" Text="{Binding RecapValue}" Style="{StaticResource LblMonoGras}" FontSize="15" /></Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+
+        <Border Grid.Row="3" Style="{StaticResource BarreBas}" IsVisible="{Binding IsStep1, Converter={StaticResource Not}}">
+            <Grid>
+                <Button Text="{Binding ContinueText}" Style="{StaticResource BtnPrimaire}" Command="{Binding ContinueCommand}" IsVisible="{Binding IsStep2}" IsEnabled="{Binding ControlChecked}" />
+                <Button Text="{Binding RangeText}" Style="{StaticResource BtnPrimaire}" Command="{Binding StoreCommand}" IsVisible="{Binding IsStep3}" />
+                <Button Text="Valider la réception" Style="{StaticResource BtnPrimaire}" Command="{Binding ValidateCommand}" IsVisible="{Binding IsStep4}" />
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>

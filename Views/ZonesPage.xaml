@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="BLY.Views.ZonesPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:BLY.Controls"
+             xmlns:vm="clr-namespace:BLY.ViewModels">
+    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
+        <c:TopBar Title="Zones et emplacements" Subtitle="Dépôt Bonabéri · 3 zones · 214 emplacements" ShowBack="False"
+                  RightIcon="{Binding AddIcon}" RightCommand="{Binding AddCommand}" />
+        <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="10" Padding="16,12,16,8">
+            <Border Style="{StaticResource Card}" Padding="12,0" HeightRequest="56">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                    <c:BlyIcon Source="icon_search" WidthRequest="22" HeightRequest="22" Tint="{DynamicResource ColorTexteSecondaire}" />
+                    <Entry Grid.Column="1" Placeholder="Code emplacement ou article" Text="{Binding Search, Mode=TwoWay}" VerticalOptions="Center" />
+                </Grid>
+            </Border>
+            <Border Grid.Column="1" WidthRequest="56" HeightRequest="56" StrokeThickness="0" StrokeShape="RoundRectangle 12"
+                    Background="{DynamicResource BrushAccent}" SemanticProperties.Description="Scanner">
+                <c:BlyIcon Source="icon_scan_line" Tint="{DynamicResource ColorSurAccent}" />
+                <Border.GestureRecognizers><TapGestureRecognizer Command="{Binding ScanCommand}" /></Border.GestureRecognizers>
+            </Border>
+        </Grid>
+        <ScrollView Grid.Row="2" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+            <HorizontalStackLayout Spacing="8" Padding="16,0,16,8">
+                <c:Chip Text="Toutes" IsSelected="{Binding IsAll, Mode=OneWay}" Command="{Binding SetFilterCommand}" CommandParameter="0" />
+                <c:Chip Text="Presque pleines" IsSelected="{Binding IsFull, Mode=OneWay}" Command="{Binding SetFilterCommand}" CommandParameter="1" />
+                <c:Chip Text="Bloquées" IsSelected="{Binding IsBlocked, Mode=OneWay}" Command="{Binding SetFilterCommand}" CommandParameter="2" />
+            </HorizontalStackLayout>
+        </ScrollView>
+        <CollectionView Grid.Row="3" ItemsSource="{Binding Zones}" Margin="16,4,16,0">
+            <CollectionView.ItemsLayout><LinearItemsLayout Orientation="Vertical" ItemSpacing="10" /></CollectionView.ItemsLayout>
+            <CollectionView.EmptyView>
+                <Label Text="Aucune zone ne correspond." Style="{StaticResource LblSecondaire}" HorizontalTextAlignment="Center" Margin="0,48" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Style="{StaticResource Card}" Padding="14">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer CommandParameter="{Binding .}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ZonesViewModel}}, Path=OpenZoneCommand}" />
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="10">
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                <Border WidthRequest="44" HeightRequest="44" StrokeThickness="0" StrokeShape="RoundRectangle 10" Background="{DynamicResource BrushMarque}">
+                                    <Label Text="{Binding Letter}" FontFamily="AtkinsonBold" FontSize="20" TextColor="{DynamicResource ColorSurMarque}" HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                    <Label Text="{Binding Name}" Style="{StaticResource LblSection}" />
+                                    <Label Text="{Binding Info}" Style="{StaticResource LblSecondaire}" />
+                                </VerticalStackLayout>
+                                <c:BlyIcon Grid.Column="2" Source="icon_chevron_right" Tint="{DynamicResource ColorTexteSecondaire}" />
+                            </Grid>
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="6">
+                                <c:BlyIcon Source="{Binding StatusIcon}" c:Theme.Tint="{Binding StatusKey}" WidthRequest="18" HeightRequest="18" />
+                                <Label Grid.Column="1" Text="{Binding StatusText}" Style="{StaticResource LblCorpsGras}" FontSize="14" c:Theme.Text="{Binding StatusKey}" VerticalOptions="Center" />
+                                <Label Grid.Column="2" Text="{Binding PercentText}" Style="{StaticResource LblMono}" FontSize="14" VerticalOptions="Center" />
+                            </Grid>
+                            <c:ProgressTrack Value="{Binding Fill}" FillKey="{Binding BarKey}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <c:BlyTabBar Grid.Row="4" Selected="zones" />
+    </Grid>
+</ContentPage>

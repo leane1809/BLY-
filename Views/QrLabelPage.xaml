@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="BLY.Views.QrLabelPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:BLY.Controls"
+             xmlns:vm="clr-namespace:BLY.ViewModels"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls">
+    <Grid RowDefinitions="Auto,*,Auto">
+        <c:TopBar Title="Étiquette d'emplacement" Subtitle="{Binding Code}" />
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="16" Spacing="14">
+                <Label Text="Aperçu avant impression" Style="{StaticResource LblSecondaire}" />
+                <!-- L'étiquette imprimée reste noir sur blanc dans les deux modes -->
+                <Border BackgroundColor="White" Stroke="#12161D" StrokeThickness="3" StrokeShape="RoundRectangle 12" Padding="12">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                        <zxing:BarcodeGeneratorView Format="QrCode" Value="{Binding Code}" WidthRequest="116" HeightRequest="116"
+                                                    ForegroundColor="#12161D" BackgroundColor="White" />
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                            <Label Text="EMPLACEMENT" FontFamily="AtkinsonBold" FontSize="12" TextColor="#12161D" />
+                            <Label Text="{Binding Code}" FontFamily="MonoBold" FontSize="28" TextColor="#12161D" />
+                            <Label Text="{Binding Detail}" FontFamily="Atkinson" FontSize="13" TextColor="#12161D" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+                <c:Banner Kind="success" Icon="icon_printer" Text="Imprimante 80 mm connectée" />
+                <Label Text="Nombre d'étiquettes" Style="{StaticResource LblChamp}" />
+                <c:QuantityStepper Value="{Binding Count, Mode=TwoWay}" Unit="{Binding CountUnit}" Minimum="1" Maximum="20" />
+                <Label Text="Collez une étiquette sur la face avant du rayon et une sur le montant de l'allée." Style="{StaticResource LblSecondaire}" />
+            </VerticalStackLayout>
+        </ScrollView>
+        <Border Grid.Row="2" Style="{StaticResource BarreBas}">
+            <Button Text="{Binding PrintText}" Style="{StaticResource BtnPrimaire}" Command="{Binding PrintCommand}" />
+        </Border>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Généré depuis les variables Figma (collection Sémantique, mode Clair). -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    x:Class="BLY.Resources.Styles.LightTheme">
+
+    <Color x:Key="ColorFond">#F6F7F9</Color>
+    <Color x:Key="ColorSurface">#FFFFFF</Color>
+    <Color x:Key="ColorSquelette">#ECEEF2</Color>
+    <Color x:Key="ColorTexte">#12161D</Color>
+    <Color x:Key="ColorTexteSecondaire">#4A5465</Color>
+    <Color x:Key="ColorTexteDiscret">#667085</Color>
+    <Color x:Key="ColorBordure">#D9DDE4</Color>
+    <Color x:Key="ColorBordureForte">#BCC3CE</Color>
+    <Color x:Key="ColorMarque">#17448F</Color>
+    <Color x:Key="ColorMarquePresse">#0E2957</Color>
+    <Color x:Key="ColorMarqueFond">#EAF1FB</Color>
+    <Color x:Key="ColorSurMarque">#FFFFFF</Color>
+    <Color x:Key="ColorAccent">#FFC21F</Color>
+    <Color x:Key="ColorAccentPresse">#F5A800</Color>
+    <Color x:Key="ColorSurAccent">#12161D</Color>
+    <Color x:Key="ColorDesactiveFond">#ECEEF2</Color>
+    <Color x:Key="ColorDesactiveTexte">#8E98A8</Color>
+    <Color x:Key="ColorSucces">#146436</Color>
+    <Color x:Key="ColorSuccesFond">#EDF7F1</Color>
+    <Color x:Key="ColorSuccesBord">#198146</Color>
+    <Color x:Key="ColorAlerte">#944806</Color>
+    <Color x:Key="ColorAlerteFond">#FDF4EB</Color>
+    <Color x:Key="ColorErreur">#B22525</Color>
+    <Color x:Key="ColorErreurFond">#FCEEEE</Color>
+    <Color x:Key="ColorErreurBord">#D92D2D</Color>
+    <Color x:Key="ColorInfo">#095C71</Color>
+    <Color x:Key="ColorInfoFond">#ECF6F9</Color>
+    <Color x:Key="ColorViolet">#462F81</Color>
+    <Color x:Key="ColorVioletFond">#F3F1FB</Color>
+    <Color x:Key="ColorVoile">#8012161D</Color>
+    <Color x:Key="ColorCamera">#0B0E13</Color>
+    <Color x:Key="ColorSurCamera">#FFFFFF</Color>
+
+    <SolidColorBrush x:Key="BrushFond" Color="{StaticResource ColorFond}" />
+    <SolidColorBrush x:Key="BrushSurface" Color="{StaticResource ColorSurface}" />
+    <SolidColorBrush x:Key="BrushSquelette" Color="{StaticResource ColorSquelette}" />
+    <SolidColorBrush x:Key="BrushBordure" Color="{StaticResource ColorBordure}" />
+    <SolidColorBrush x:Key="BrushBordureForte" Color="{StaticResource ColorBordureForte}" />
+    <SolidColorBrush x:Key="BrushMarque" Color="{StaticResource ColorMarque}" />
+    <SolidColorBrush x:Key="BrushMarqueFond" Color="{StaticResource ColorMarqueFond}" />
+    <SolidColorBrush x:Key="BrushAccent" Color="{StaticResource ColorAccent}" />
+    <SolidColorBrush x:Key="BrushSuccesFond" Color="{StaticResource ColorSuccesFond}" />
+    <SolidColorBrush x:Key="BrushSuccesBord" Color="{StaticResource ColorSuccesBord}" />
+    <SolidColorBrush x:Key="BrushAlerteFond" Color="{StaticResource ColorAlerteFond}" />
+    <SolidColorBrush x:Key="BrushErreurFond" Color="{StaticResource ColorErreurFond}" />
+    <SolidColorBrush x:Key="BrushErreurBord" Color="{StaticResource ColorErreurBord}" />
+    <SolidColorBrush x:Key="BrushInfoFond" Color="{StaticResource ColorInfoFond}" />
+    <SolidColorBrush x:Key="BrushVioletFond" Color="{StaticResource ColorVioletFond}" />
+    <SolidColorBrush x:Key="BrushVoile" Color="{StaticResource ColorVoile}" />
+    <SolidColorBrush x:Key="BrushCamera" Color="{StaticResource ColorCamera}" />
+    <SolidColorBrush x:Key="BrushDesactiveFond" Color="{StaticResource ColorDesactiveFond}" />
+    <SolidColorBrush x:Key="BrushAlerte" Color="{StaticResource ColorAlerte}" />
+    <SolidColorBrush x:Key="BrushErreur" Color="{StaticResource ColorErreur}" />
+    <SolidColorBrush x:Key="BrushSucces" Color="{StaticResource ColorSucces}" />
+    <SolidColorBrush x:Key="BrushInfo" Color="{StaticResource ColorInfo}" />
+    <SolidColorBrush x:Key="BrushViolet" Color="{StaticResource ColorViolet}" />
+</ResourceDictionary>

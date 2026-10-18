@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView x:Class="BLY.Controls.QuantityStepper"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:BLY.Controls"
+             x:Name="Self">
+    <Border BindingContext="{x:Reference Self}" Style="{StaticResource Card}" Padding="10">
+        <Grid ColumnDefinitions="64,*,64" ColumnSpacing="8">
+            <Border Grid.Column="0" Style="{StaticResource Tuile}" WidthRequest="64" HeightRequest="64"
+                    StrokeShape="RoundRectangle 14" SemanticProperties.Description="Diminuer la quantité">
+                <c:BlyIcon Source="icon_minus" WidthRequest="30" HeightRequest="30" Tint="{DynamicResource ColorMarque}" />
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnMinus" />
+                </Border.GestureRecognizers>
+            </Border>
+            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="0">
+                <Label Text="{Binding Value}" Style="{StaticResource LblQuantiteXL}" HorizontalTextAlignment="Center" />
+                <Label Text="{Binding Unit}" Style="{StaticResource LblSecondaire}" HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+            <Border Grid.Column="2" WidthRequest="64" HeightRequest="64" StrokeThickness="0" StrokeShape="RoundRectangle 14"
+                    Background="{DynamicResource BrushMarque}" SemanticProperties.Description="Augmenter la quantité">
+                <c:BlyIcon Source="icon_plus" WidthRequest="30" HeightRequest="30" Tint="{DynamicResource ColorSurMarque}" />
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnPlus" />
+                </Border.GestureRecognizers>
+            </Border>
+        </Grid>
+    </Border>
+</ContentView>

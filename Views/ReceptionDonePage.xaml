@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="BLY.Views.ReceptionDonePage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:BLY.Controls"
+             xmlns:vm="clr-namespace:BLY.ViewModels">
+    <Grid RowDefinitions="*,Auto">
+        <VerticalStackLayout VerticalOptions="Center" Padding="24" Spacing="12">
+            <Border WidthRequest="120" HeightRequest="120" StrokeThickness="0" StrokeShape="RoundRectangle 60" Background="{DynamicResource BrushSuccesFond}" HorizontalOptions="Center">
+                <c:BlyIcon Source="icon_circle_check" WidthRequest="64" HeightRequest="64" Tint="{DynamicResource ColorSucces}" />
+            </Border>
+            <Label Text="Réception validée" Style="{StaticResource LblTitreXL}" HorizontalTextAlignment="Center" Margin="0,8,0,0" />
+            <Label Text="{Binding Summary}" Style="{StaticResource LblCorpsGras}" HorizontalTextAlignment="Center" />
+            <Label Text="{Binding Stamp}" Style="{StaticResource LblSecondaire}" HorizontalTextAlignment="Center" />
+            <c:Banner Kind="{Binding SyncKind}" Icon="{Binding SyncIcon}" Text="{Binding SyncText}" Margin="0,8,0,0" />
+            <c:Banner Kind="warning" Text="{Binding DeltaText}" IsVisible="{Binding HasDelta}" />
+        </VerticalStackLayout>
+        <Border Grid.Row="1" Style="{StaticResource BarreBas}">
+            <VerticalStackLayout Spacing="4">
+                <Button Text="+ Nouvelle réception" Style="{StaticResource BtnPrimaire}" Command="{Binding NewReceptionCommand}" />
+                <Button Text="Retour à l'accueil" Style="{StaticResource BtnTexte}" Command="{Binding HomeCommand}" />
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentPage>

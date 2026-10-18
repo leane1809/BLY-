@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="BLY.Views.OnboardingPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:BLY.Controls"
+             xmlns:vm="clr-namespace:BLY.ViewModels"
+             BackgroundColor="{DynamicResource ColorSurface}">
+    <Grid RowDefinitions="Auto,*,Auto,Auto" Padding="0,8,0,0">
+        <Button Text="Passer" Style="{StaticResource BtnTexte}" HorizontalOptions="End" Margin="0,0,8,0" Command="{Binding SkipCommand}" />
+        <CarouselView Grid.Row="1" ItemsSource="{Binding Slides}" Position="{Binding Position, Mode=TwoWay}" Loop="False" IndicatorView="Dots">
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout Spacing="16" Padding="32,0" VerticalOptions="Center">
+                        <Border WidthRequest="168" HeightRequest="168" StrokeThickness="0" StrokeShape="RoundRectangle 36"
+                                Background="{DynamicResource BrushMarqueFond}" HorizontalOptions="Center" Margin="0,0,0,16">
+                            <c:BlyIcon Source="{Binding Icon}" WidthRequest="84" HeightRequest="84" Tint="{DynamicResource ColorMarque}" />
+                        </Border>
+                        <Label Text="{Binding Title}" Style="{StaticResource LblTitre}" HorizontalTextAlignment="Center" />
+                        <Label Text="{Binding Text}" Style="{StaticResource LblSecondaire}" FontSize="16" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+        <IndicatorView x:Name="Dots" Grid.Row="2" HorizontalOptions="Center" Margin="0,8,0,16" IndicatorSize="9"
+                       IndicatorColor="{DynamicResource ColorBordureForte}" SelectedIndicatorColor="{DynamicResource ColorMarque}" />
+        <Border Grid.Row="3" Style="{StaticResource BarreBas}">
+            <Button Text="{Binding NextText}" Style="{StaticResource BtnPrimaire}" Command="{Binding NextCommand}" />
+        </Border>
+    </Grid>
+</ContentPage>

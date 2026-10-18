@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="BLY.Views.MovementDetailPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:BLY.Controls"
+             xmlns:vm="clr-namespace:BLY.ViewModels">
+    <Grid RowDefinitions="Auto,*,Auto">
+        <c:TopBar Title="{Binding Title}" Subtitle="Réception · 06/10/2026 09:12" RightIcon="icon_printer" RightCommand="{Binding PrintCommand}" />
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="16" Spacing="14">
+                <VerticalStackLayout Spacing="2">
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="+120" FontFamily="MonoBold" FontSize="48" TextColor="{DynamicResource ColorSucces}" />
+                        <Label Text="sacs de 50 kg" Style="{StaticResource LblSecondaire}" VerticalOptions="End" Margin="0,0,0,10" />
+                    </HorizontalStackLayout>
+                    <c:Banner Compact="True" Kind="success" Icon="icon_circle_check" Text="Reçu" />
+                </VerticalStackLayout>
+                <Border Style="{StaticResource Card}" Padding="14">
+                    <VerticalStackLayout Spacing="12" BindableLayout.ItemsSource="{Binding Rows}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="110,*" ColumnSpacing="12">
+                                    <Label Text="{Binding Label}" Style="{StaticResource LblSecondaire}" />
+                                    <Label Grid.Column="1" Text="{Binding Value}" Style="{StaticResource LblCorpsGras}" />
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </Border>
+                <c:Banner Kind="success" Icon="icon_cloud_check" Text="{Binding SyncText}" />
+            </VerticalStackLayout>
+        </ScrollView>
+        <Border Grid.Row="2" Style="{StaticResource BarreBas}">
+            <Button Text="Voir l'emplacement" Style="{StaticResource BtnSecondaire}" Command="{Binding OpenLocationCommand}" />
+        </Border>
+    </Grid>
+</ContentPage>

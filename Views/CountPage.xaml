@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="BLY.Views.CountPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:BLY.Controls"
+             xmlns:vm="clr-namespace:BLY.ViewModels">
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+        <c:TopBar Title="{Binding Title}" Subtitle="{Binding Subtitle}" />
+        <c:StepperBar Grid.Row="1" Steps="Scanner|Compter|Justifier|Valider" Current="2" />
+        <ScrollView Grid.Row="2">
+            <VerticalStackLayout Padding="16" Spacing="12">
+                <c:Banner Kind="info" Icon="icon_eye_off" Text="Comptage aveugle : la quantité théorique est masquée" />
+                <Label Text="{Binding Article}" Style="{StaticResource LblSection}" />
+                <c:QuantityStepper Value="{Binding Count, Mode=TwoWay}" Unit="pièces comptées" />
+            </VerticalStackLayout>
+        </ScrollView>
+        <c:Keypad Grid.Row="3" Value="{Binding Count, Mode=TwoWay}" ConfirmCommand="{Binding ConfirmCommand}" />
+    </Grid>
+</ContentPage>

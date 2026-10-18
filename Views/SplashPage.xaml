@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="BLY.Views.SplashPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:BLY.Controls"
+             xmlns:vm="clr-namespace:BLY.ViewModels"
+             BackgroundColor="{DynamicResource ColorSurface}">
+    <Grid RowDefinitions="*,Auto" Padding="32,0,32,32">
+        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
+            <Image Source="logo_mark" WidthRequest="96" HeightRequest="96" HorizontalOptions="Center" />
+            <Label Text="bly" FontFamily="AtkinsonBold" FontSize="56" TextColor="{DynamicResource ColorMarque}" HorizontalOptions="Center" />
+            <Label Text="Chaque article à sa place." Style="{StaticResource LblCorpsGras}" TextColor="{DynamicResource ColorTexteSecondaire}" HorizontalTextAlignment="Center" />
+        </VerticalStackLayout>
+        <VerticalStackLayout Grid.Row="1" Spacing="10">
+            <c:ProgressTrack Value="{Binding Progress}" />
+            <Label Text="Préparation des données hors ligne…" Style="{StaticResource LblSecondaire}" HorizontalTextAlignment="Center" />
+            <Label Text="Version 1.0.0" Style="{StaticResource LblLegende}" HorizontalTextAlignment="Center" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

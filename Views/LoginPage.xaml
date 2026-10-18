@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="BLY.Views.LoginPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:BLY.Controls"
+             xmlns:vm="clr-namespace:BLY.ViewModels"
+             BackgroundColor="{DynamicResource ColorSurface}">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="24,32,24,16" Spacing="18">
+                <HorizontalStackLayout Spacing="10">
+                    <Image Source="logo_mark" WidthRequest="40" HeightRequest="40" />
+                    <Label Text="bly" FontFamily="AtkinsonBold" FontSize="34" TextColor="{DynamicResource ColorMarque}" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Connexion" Style="{StaticResource LblTitreXL}" />
+                    <Label Text="Entrez votre numéro de téléphone et votre code PIN à 4 chiffres." Style="{StaticResource LblSecondaire}" FontSize="16" />
+                </VerticalStackLayout>
+                <c:FieldEntry Label="Numéro de téléphone" Icon="icon_smartphone" InputKeyboard="Telephone" Placeholder="+237 6 77 12 34 56"
+                              Text="{Binding Phone, Mode=TwoWay}" ErrorText="{Binding PhoneError}" />
+                <c:FieldEntry Label="Code PIN" Icon="icon_lock" IsPassword="True" InputKeyboard="Numeric" MaxLength="4" Placeholder="••••"
+                              Text="{Binding Pin, Mode=TwoWay}" ErrorText="{Binding PinError}" HelperText="4 chiffres" />
+                <Button Text="Code PIN oublié ?" Style="{StaticResource BtnTexte}" HorizontalOptions="Start" Command="{Binding ForgotCommand}" />
+            </VerticalStackLayout>
+        </ScrollView>
+        <Border Grid.Row="1" Style="{StaticResource BarreBas}">
+            <VerticalStackLayout Spacing="8">
+                <Button Text="Se connecter" Style="{StaticResource BtnPrimaire}" Command="{Binding LoginCommand}"
+                        IsEnabled="{Binding IsBusy, Converter={StaticResource Not}}" />
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
+                    <Label Text="Pas encore de compte ?" Style="{StaticResource LblSecondaire}" VerticalOptions="Center" />
+                    <Button Text="Créer un compte" Style="{StaticResource BtnTexte}" FontSize="14" Padding="4,0" Command="{Binding RegisterCommand}" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentPage>

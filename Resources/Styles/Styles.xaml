@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Styles BLY : 2 familles (Atkinson Hyperlegible Next + JetBrains Mono), cibles >= 48, action principale 56. -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- ===== Implicites ===== -->
+    <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
+        <Setter Property="BackgroundColor" Value="{DynamicResource ColorFond}" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+    <Style TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource ColorTexte}" />
+        <Setter Property="FontFamily" Value="Atkinson" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style TargetType="Entry">
+        <Setter Property="TextColor" Value="{DynamicResource ColorTexte}" />
+        <Setter Property="PlaceholderColor" Value="{DynamicResource ColorTexteDiscret}" />
+        <Setter Property="FontFamily" Value="Atkinson" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+    </Style>
+    <Style TargetType="Picker">
+        <Setter Property="TextColor" Value="{DynamicResource ColorTexte}" />
+        <Setter Property="TitleColor" Value="{DynamicResource ColorTexteDiscret}" />
+        <Setter Property="FontFamily" Value="Atkinson" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+    </Style>
+    <Style TargetType="ActivityIndicator">
+        <Setter Property="Color" Value="{DynamicResource ColorMarque}" />
+    </Style>
+    <Style TargetType="Switch">
+        <Setter Property="OnColor" Value="{DynamicResource ColorMarque}" />
+        <Setter Property="ThumbColor" Value="White" />
+    </Style>
+    <Style TargetType="RadioButton">
+        <Setter Property="TextColor" Value="{DynamicResource ColorTexte}" />
+        <Setter Property="FontFamily" Value="Atkinson" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+    </Style>
+    <Style TargetType="CheckBox">
+        <Setter Property="Color" Value="{DynamicResource ColorMarque}" />
+    </Style>
+    <Style TargetType="CollectionView">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+    </Style>
+    <Style TargetType="ScrollView">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+    </Style>
+
+    <!-- ===== Typographie (16 styles de texte du design system, regroupés) ===== -->
+    <Style x:Key="LblTitreXL" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource ColorTexte}" />
+        <Setter Property="FontFamily" Value="AtkinsonBold" />
+        <Setter Property="FontSize" Value="28" />
+    </Style>
+    <Style x:Key="LblTitre" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource ColorTexte}" />
+        <Setter Property="FontFamily" Value="AtkinsonBold" />
+        <Setter Property="FontSize" Value="22" />
+    </Style>
+    <Style x:Key="LblTitreBarre" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource ColorTexte}" />
+        <Setter Property="FontFamily" Value="AtkinsonBold" />
+        <Setter Property="FontSize" Value="18" />
+    </Style>
+    <Style x:Key="LblSection" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource ColorTexte}" />
+        <Setter Property="FontFamily" Value="AtkinsonSemiBold" />
+        <Setter Property="FontSize" Value="18" />
+    </Style>
+    <Style x:Key="LblCorps" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource ColorTexte}" />
+        <Setter Property="FontFamily" Value="Atkinson" />
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+    <Style x:Key="LblCorpsGras" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource ColorTexte}" />
+        <Setter Property="FontFamily" Value="AtkinsonSemiBold" />
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+    <Style x:Key="LblSecondaire" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource ColorTexteSecondaire}" />
+        <Setter Property="FontFamily" Value="Atkinson" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style x:Key="LblLegende" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource ColorTexteSecondaire}" />
+        <Setter Property="FontFamily" Value="Atkinson" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style x:Key="LblChamp" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource ColorTexte}" />
+        <Setter Property="FontFamily" Value="AtkinsonSemiBold" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style x:Key="LblErreur" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource ColorErreur}" />
+        <Setter Property="FontFamily" Value="AtkinsonMedium" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style x:Key="LblLien" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource ColorMarque}" />
+        <Setter Property="FontFamily" Value="AtkinsonBold" />
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+    <Style x:Key="LblMono" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource ColorTexte}" />
+        <Setter Property="FontFamily" Value="MonoMedium" />
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+    <Style x:Key="LblMonoGras" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource ColorTexte}" />
+        <Setter Property="FontFamily" Value="MonoBold" />
+        <Setter Property="FontSize" Value="20" />
+    </Style>
+    <Style x:Key="LblQuantiteL" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource ColorTexte}" />
+        <Setter Property="FontFamily" Value="MonoBold" />
+        <Setter Property="FontSize" Value="32" />
+    </Style>
+    <Style x:Key="LblQuantiteXL" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource ColorTexte}" />
+        <Setter Property="FontFamily" Value="MonoBold" />
+        <Setter Property="FontSize" Value="44" />
+    </Style>
+
+    <!-- ===== Boutons ===== -->
+    <Style x:Key="BtnPrimaire" TargetType="Button">
+        <Setter Property="HeightRequest" Value="56" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="FontFamily" Value="AtkinsonBold" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource ColorMarque}" />
+        <Setter Property="TextColor" Value="{DynamicResource ColorSurMarque}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{DynamicResource ColorMarquePresse}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{DynamicResource ColorDesactiveFond}" />
+                            <Setter Property="TextColor" Value="{DynamicResource ColorDesactiveTexte}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    <Style x:Key="BtnSecondaire" TargetType="Button">
+        <Setter Property="HeightRequest" Value="56" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="FontFamily" Value="AtkinsonBold" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource ColorMarqueFond}" />
+        <Setter Property="TextColor" Value="{DynamicResource ColorMarque}" />
+        <Setter Property="BorderColor" Value="{DynamicResource ColorMarque}" />
+        <Setter Property="BorderWidth" Value="1.5" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{DynamicResource ColorDesactiveFond}" />
+                            <Setter Property="TextColor" Value="{DynamicResource ColorDesactiveTexte}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource ColorBordure}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    <Style x:Key="BtnAccent" TargetType="Button">
+        <Setter Property="HeightRequest" Value="56" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="FontFamily" Value="AtkinsonBold" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource ColorAccent}" />
+        <Setter Property="TextColor" Value="{DynamicResource ColorSurAccent}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{DynamicResource ColorAccentPresse}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    <Style x:Key="BtnDestructif" TargetType="Button">
+        <Setter Property="HeightRequest" Value="56" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="FontFamily" Value="AtkinsonBold" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource ColorErreur}" />
+        <Setter Property="TextColor" Value="{DynamicResource ColorSurMarque}" />
+    </Style>
+    <Style x:Key="BtnTexte" TargetType="Button">
+        <Setter Property="HeightRequest" Value="48" />
+        <Setter Property="FontFamily" Value="AtkinsonBold" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{DynamicResource ColorMarque}" />
+    </Style>
+
+    <!-- ===== Surfaces ===== -->
+    <Style x:Key="Card" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource BrushSurface}" />
+        <Setter Property="Stroke" Value="{DynamicResource BrushBordure}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 12" />
+        <Setter Property="Padding" Value="12" />
+    </Style>
+    <Style x:Key="BarreBas" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource BrushSurface}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Padding" Value="16,12,16,16" />
+    </Style>
+    <Style x:Key="Tuile" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource BrushMarqueFond}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 10" />
+        <Setter Property="WidthRequest" Value="40" />
+        <Setter Property="HeightRequest" Value="40" />
+    </Style>
+    <Style x:Key="Separateur" TargetType="BoxView">
+        <Setter Property="Color" Value="{DynamicResource ColorBordure}" />
+        <Setter Property="HeightRequest" Value="1" />
+    </Style>
+    <Style x:Key="ActionTuile" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource BrushMarqueFond}" />
+        <Setter Property="Stroke" Value="{DynamicResource BrushMarque}" />
+        <Setter Property="StrokeThickness" Value="1.5" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 12" />
+        <Setter Property="HeightRequest" Value="56" />
+        <Setter Property="Padding" Value="12,0" />
+    </Style>
+</ResourceDictionary>
